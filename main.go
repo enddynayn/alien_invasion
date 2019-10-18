@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
 func writeToFile() {
@@ -39,8 +40,14 @@ func readWithBufio() {
 	}
 
 	fmt.Println("read lines:")
+	// https://www.golangprograms.com/how-to-split-a-string-on-white-space.html
 	for _, line := range lines {
-		fmt.Println(line)
+		words := strings.Fields(line)
+
+		for _, word := range words {
+			fmt.Println(word)
+		}
+
 	}
 }
 
