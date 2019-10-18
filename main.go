@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 )
@@ -17,6 +18,30 @@ func writeToFile() {
 	file.Write(data)
 	file.WriteString("invasion of world \n")
 	file.Close()
+}
+
+// https://kgrz.io/reading-files-in-go-an-overview.html
+func readWithBufio() {
+	file, error := os.Open("myFile.txt")
+	if error != nil {
+		panic(error)
+	}
+
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	scanner.Split(bufio.ScanLines)
+
+	var lines []string
+
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+
+	fmt.Println("read lines:")
+	for _, line := range lines {
+		fmt.Println(line)
+	}
 }
 
 func readFile() {
@@ -36,4 +61,5 @@ func readFile() {
 func main() {
 	writeToFile()
 	readFile()
+	readWithBufio()
 }
