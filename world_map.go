@@ -2,10 +2,13 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
+	"time"
 )
 
 type WorldMap struct {
 	Cities map[string]*City
+	Aliens []*Alien
 }
 
 func NewWorldMap() *WorldMap {
@@ -44,4 +47,43 @@ func (world *WorldMap) Load(lines []string) {
 		}
 	}
 	fmt.Println(world.Cities)
+}
+
+func (world *WorldMap) CityNames() []string {
+	keys := make([]string, len(world.Cities))
+	i := 0
+	for k := range world.Cities {
+		keys[i] = k
+		i++
+	}
+
+	return keys
+}
+
+func (world *WorldMap) randomCity() *City {
+	seconds := time.Now().Unix()
+	rand.Seed(seconds)
+	randomNumber := rand.Intn(world.numberOfCities())
+
+	cities := world.CityNames()
+	randomCityName := cities[randomNumber]
+
+	city, _ := world.Cities[randomCityName]
+	return city
+}
+
+func (world *WorldMap) numberOfCities() int {
+	return len(world.CityNames())
+}
+
+func (world *WorldMap) LoadAliens(count int) {
+	aliens := make([]*Alien, count)
+	for i := 0; i < count; i++ {
+		alien := NewAlien()
+		alien.City = world.randomCity()
+		alien.Name = i
+		aliens[i] = alien
+	}
+
+	world.Aliens = aliens
 }
