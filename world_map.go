@@ -24,7 +24,7 @@ func (world *WorldMap) addCity(city *City) {
 	world.Cities[city.Name] = city
 }
 
-func (world *WorldMap) Load(lines []string) {
+func (world *WorldMap) LoadCities(lines []string) {
 	for _, line := range lines {
 		cityData := NewCityData(line)
 
