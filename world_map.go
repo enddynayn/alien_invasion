@@ -24,6 +24,10 @@ func (world *WorldMap) addCity(city *City) {
 	world.Cities[city.Name] = city
 }
 
+func (world *WorldMap) RemoveCity(city *City) {
+	delete(world.Cities, city.Name)
+}
+
 func (world *WorldMap) LoadCities(lines []string) {
 	for _, line := range lines {
 		cityData := NewCityData(line)
@@ -82,6 +86,7 @@ func (world *WorldMap) LoadAliens(count int) {
 		alien := NewAlien()
 		alien.City = world.randomCity()
 		alien.Name = i
+		alien.Active = true
 		aliens[i] = alien
 	}
 
