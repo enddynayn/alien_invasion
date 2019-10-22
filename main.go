@@ -32,30 +32,28 @@ func simulate(worldMap *WorldMap) {
 			currentAlien := worldMap.Aliens[m]
 			currentAlien.Move()
 
-			n := 0
 			var aliensInSameCity []int
-			var willDeleteCity bool
+			n := 0
 			for n < numberOfAliens {
-				if !worldMap.Aliens[n].Active {
+				nextAlien := worldMap.Aliens[n]
+
+				if !nextAlien.isActive() {
 					n++
 					continue
 				}
-				nextAlien := worldMap.Aliens[n]
 
 				if n != m && currentAlien.Name == nextAlien.Name {
 					aliensInSameCity = append(aliensInSameCity, nextAlien.Name)
-					worldMap.Aliens[n].Active = false
-					willDeleteCity = true
+					nextAlien.Deactivate()
 				}
 				n++
-
 			}
 
-			if willDeleteCity {
+			if len(aliensInSameCity) > 0 {
 				aliensInSameCity = append(aliensInSameCity, currentAlien.Name)
 				fmt.Println("destroyed the following aliens", currentAlien.City.Name, aliensInSameCity)
 				worldMap.RemoveCity(currentAlien.City)
-				currentAlien.Active = false
+				currentAlien.Deactivate()
 			}
 
 			m++

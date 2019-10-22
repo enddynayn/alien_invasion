@@ -16,3 +16,12 @@ func (a *Alien) Move() {
 
 	a.City = to
 }
+
+func (a *Alien) Deactivate() bool {
+	a.Active = false
+	return false
+}
+
+func (a *Alien) isActive() bool {
+	return a.Active == true
+}
