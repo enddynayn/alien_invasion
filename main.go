@@ -8,7 +8,7 @@ import (
 
 func main() {
 	worldMap := NewWorldMap()
-	lines := []string{"Foo north=Bar west=Baz south=Qu-ux", "Bar south=Foo west=Bee"}
+	lines := FileReader("cities.txt")
 	worldMap.LoadCities(lines)
 	worldMap.LoadAliens(5)
 
