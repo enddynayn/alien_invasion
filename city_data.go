@@ -1,6 +1,10 @@
 package main
 
-import "strings"
+import (
+	"strings"
+)
+
+var CacheCityNamesFromInput map[string]bool
 
 type CityData struct {
 	Name        string
@@ -12,24 +16,25 @@ type Connection struct {
 	cityDestinationName string
 }
 
-func NewCityData(line string) *CityData {
+func NewCityData(line string) CityData {
 	lineParts := strings.Fields(line)
 	cityConnections := lineParts[1:]
-	cityName := lineParts[0]
-	cityData := new(CityData)
-	cityData.Connections = make([]Connection, len(cityConnections))
+	cityName := strings.TrimSpace(lineParts[0])
+	var cityData CityData
+
 	cityData.Name = cityName
+	cityData.Connections = make([]Connection, len(cityConnections))
+	CacheCityNamesFromInput = make(map[string]bool)
+	CacheCityNamesFromInput[cityData.Name] = true
 
-	for _, con := range cityConnections {
-		cardinalDirection, cityDestinationName := parse(con)
-		connect := Connection{cardinalDirection: cardinalDirection, cityDestinationName: cityDestinationName}
-		cityData.Connections = append(cityData.Connections, connect)
+	for index := range cityData.Connections {
+		cardinalDirection, cityDestinationName := parse(cityConnections[index])
+		cityData.Connections[index] = Connection{cardinalDirection: cardinalDirection, cityDestinationName: cityDestinationName}
 	}
-
 	return cityData
 }
 
 func parse(connection string) (string, string) {
 	directionAndDestination := strings.Split(connection, "=")
-	return directionAndDestination[0], directionAndDestination[1]
+	return strings.TrimSpace(directionAndDestination[0]), strings.TrimSpace(directionAndDestination[1])
 }
