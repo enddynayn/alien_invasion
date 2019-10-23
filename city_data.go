@@ -4,6 +4,8 @@ import (
 	"strings"
 )
 
+var CacheCitiesFromInputNames map[string]bool
+
 type CityData struct {
 	Name        string
 	Connections []Connection
@@ -22,6 +24,8 @@ func NewCityData(line string) CityData {
 
 	cityData.Name = cityName
 	cityData.Connections = make([]Connection, len(cityConnections))
+	CacheCitiesFromInputNames = make(map[string]bool)
+	CacheCitiesFromInputNames[cityData.Name] = true
 
 	for index := range cityData.Connections {
 		cardinalDirection, cityDestinationName := parse(cityConnections[index])

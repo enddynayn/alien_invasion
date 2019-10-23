@@ -11,6 +11,10 @@ func NewAlien() *Alien {
 }
 
 func (a *Alien) Move() {
+	if len(a.City.Paths) == 0 {
+		return
+	}
+
 	from := a.City
 	to := from.RandomCityDestination()
 
