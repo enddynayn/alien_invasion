@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math/rand"
 	"time"
 )
@@ -24,8 +23,16 @@ func (world *WorldMap) addCity(city *City) {
 	world.Cities[city.Name] = city
 }
 
-func (world *WorldMap) RemoveCity(city *City) {
-	delete(world.Cities, city.Name)
+func (world *WorldMap) RemoveCity(name string) bool {
+	city, _ := world.Cities[name]
+	for key, v := range city.Paths {
+		if _, ok := v.Paths[OppositeCardinalDirections[key]]; ok {
+			delete(v.Paths, OppositeCardinalDirections[key])
+		}
+	}
+
+	delete(world.Cities, name)
+	return true
 }
 
 func (world *WorldMap) LoadCities(lines []string) {
@@ -46,11 +53,9 @@ func (world *WorldMap) LoadCities(lines []string) {
 				city := NewCity(connection.cityDestinationName)
 				world.addCity(city)
 			}
-
 			currentCity.AddPath(connection.cardinalDirection, world.Cities[connection.cityDestinationName])
 		}
 	}
-	fmt.Println(world.Cities)
 }
 
 func (world *WorldMap) CityNames() []string {
@@ -80,7 +85,7 @@ func (world *WorldMap) numberOfCities() int {
 	return len(world.CityNames())
 }
 
-func (world *WorldMap) LoadAliens(count int) {
+func (world *WorldMap) LoadAliens(count int) bool {
 	aliens := make([]*Alien, count)
 	for i := 0; i < count; i++ {
 		alien := NewAlien()
@@ -91,4 +96,5 @@ func (world *WorldMap) LoadAliens(count int) {
 	}
 
 	world.Aliens = aliens
+	return true
 }

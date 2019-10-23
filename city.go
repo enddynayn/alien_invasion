@@ -14,13 +14,15 @@ func NewCity(name string) *City {
 	return &City{Name: name, Paths: make(map[string]*City)}
 }
 
-func (c *City) AddPath(cardinalDirection string, cityDestination *City) {
+func (c *City) AddPath(cardinalDirection string, cityDestination *City) bool {
 	c.Paths[cardinalDirection] = cityDestination
 
 	//  bidirectional
-	if value, ok := oppositeCardinalDirections[cardinalDirection]; ok {
+	if value, ok := OppositeCardinalDirections[cardinalDirection]; ok {
 		cityDestination.Paths[value] = c
 	}
+
+	return true
 }
 
 func (c *City) paths() []string {
@@ -51,7 +53,7 @@ func (c *City) RandomCityDestination() *City {
 	return city
 }
 
-var oppositeCardinalDirections = map[string]string{
+var OppositeCardinalDirections = map[string]string{
 	"north": "south",
 	"south": "north",
 	"east":  "west",

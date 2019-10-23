@@ -6,22 +6,23 @@ import (
 
 func main() {
 	worldMap := NewWorldMap()
-	lines := []string{"foo north=bar south=baz east=qu", "bar south=foo east=baz"}
+	lines := []string{"Foo north=Bar west=Baz south=Qu-ux", "Bar south=Foo west=Bee"}
 	worldMap.LoadCities(lines)
 	worldMap.LoadAliens(2)
-	fmt.Println(worldMap.Aliens)
-	fmt.Println(worldMap.Aliens[0].City)
+
 	simulate(worldMap)
 
-	fmt.Println("destroyed the following aliens", worldMap.Cities)
+	fmt.Println("remaining cities", worldMap.Cities)
+	fmt.Println("remaining aliens", worldMap.Aliens)
 }
 
-const rounds = 10
+const rounds = 100
 
 func simulate(worldMap *WorldMap) {
 	for i := 0; i < rounds; i++ {
 
 		numberOfAliens := len(worldMap.Aliens)
+		fmt.Println(numberOfAliens)
 		m := 0
 		for m < numberOfAliens {
 			if !worldMap.Aliens[m].Active {
@@ -42,7 +43,8 @@ func simulate(worldMap *WorldMap) {
 					continue
 				}
 
-				if n != m && currentAlien.Name == nextAlien.Name {
+				if n != m && currentAlien.City.Name == nextAlien.City.Name {
+					fmt.Println("hi")
 					aliensInSameCity = append(aliensInSameCity, nextAlien.Name)
 					nextAlien.Deactivate()
 				}
@@ -52,7 +54,7 @@ func simulate(worldMap *WorldMap) {
 			if len(aliensInSameCity) > 0 {
 				aliensInSameCity = append(aliensInSameCity, currentAlien.Name)
 				fmt.Println("destroyed the following aliens", currentAlien.City.Name, aliensInSameCity)
-				worldMap.RemoveCity(currentAlien.City)
+				worldMap.RemoveCity(currentAlien.City.Name)
 				currentAlien.Deactivate()
 			}
 
