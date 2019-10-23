@@ -20,7 +20,10 @@ func main() {
 const rounds = 10
 
 func simulate(worldMap *WorldMap) {
-	for i := 0; i < rounds; i++ {
+	for {
+		if canEndSimulation(worldMap) {
+			break
+		}
 
 		numberOfAliens := len(worldMap.Aliens)
 		m := 0
@@ -82,7 +85,7 @@ func fightLog(cityName string, alienNames []int) {
 
 func logRemaindingCities(worldMap *WorldMap) {
 	for name, city := range worldMap.Cities {
-		_, ok := CacheCitiesFromInputNames[name]
+		_, ok := CacheCityNamesFromInput[name]
 		if !ok {
 			continue
 		}
@@ -97,4 +100,65 @@ func logRemaindingCities(worldMap *WorldMap) {
 
 		fmt.Println(line)
 	}
+}
+
+func canEndSimulation(worldMap *WorldMap) bool {
+	return allAliensInactive(worldMap.Aliens) ||
+		allAliensReachMaxMoves(worldMap.Aliens) ||
+		allAliensTrapped(worldMap.Aliens)
+}
+
+func allAliensInactive(aliens []*Alien) bool {
+	return allAliens(aliens, func(a *Alien) bool {
+		return !a.isActive()
+	})
+}
+
+func allAliensReachMaxMoves(aliens []*Alien) bool {
+	aliens = filterAliens(aliens, func(a *Alien) bool {
+		return a.isActive() && !a.isTrapped()
+	})
+
+	return allAliens(aliens, func(a *Alien) bool {
+		return a.MoveCount >= 10000
+	})
+
+}
+
+func allAliensTrapped(aliens []*Alien) bool {
+	aliens = filterAliens(aliens, func(a *Alien) bool {
+		return a.isActive()
+	})
+
+	return allAliens(aliens, func(a *Alien) bool {
+		return a.isTrapped()
+	})
+}
+
+func allAliens(vs []*Alien, f func(*Alien) bool) bool {
+	for _, v := range vs {
+		if !f(v) {
+			return false
+		}
+	}
+	return true
+}
+
+func filterAliens(vs []*Alien, f func(*Alien) bool) []*Alien {
+	vsf := make([]*Alien, 0)
+	for _, v := range vs {
+		if f(v) {
+			vsf = append(vsf, v)
+		}
+	}
+	return vsf
+}
+
+func anyAlien(vs []*Alien, f func(*Alien) bool) bool {
+	for _, v := range vs {
+		if f(v) {
+			return true
+		}
+	}
+	return false
 }
