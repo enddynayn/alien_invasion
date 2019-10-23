@@ -37,7 +37,6 @@ func (world *WorldMap) RemoveCity(name string) bool {
 
 func (world *WorldMap) LoadCities(lines []string) {
 	for _, line := range lines {
-
 		cityData := NewCityData(line)
 
 		var currentCity *City

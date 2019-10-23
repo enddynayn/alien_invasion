@@ -4,7 +4,7 @@ import (
 	"strings"
 )
 
-var CacheCityNamesFromInput map[string]bool
+var CacheCityNamesFromInput map[string]bool = make(map[string]bool)
 
 type CityData struct {
 	Name        string
@@ -24,7 +24,6 @@ func NewCityData(line string) CityData {
 
 	cityData.Name = cityName
 	cityData.Connections = make([]Connection, len(cityConnections))
-	CacheCityNamesFromInput = make(map[string]bool)
 	CacheCityNamesFromInput[cityData.Name] = true
 
 	for index := range cityData.Connections {

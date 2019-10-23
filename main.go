@@ -1,16 +1,21 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"strconv"
 	"strings"
 )
 
 func main() {
+	var alienCount = flag.Int("aliens", 3, "number of aliens to randomly place in cities")
+
+	flag.Parse()
+
 	worldMap := NewWorldMap()
 	lines := FileReader("cities.txt")
 	worldMap.LoadCities(lines)
-	worldMap.LoadAliens(5)
+	worldMap.LoadAliens(*alienCount)
 
 	simulate(worldMap)
 
