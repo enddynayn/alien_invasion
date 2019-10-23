@@ -158,12 +158,3 @@ func filterAliens(vs []*Alien, f func(*Alien) bool) []*Alien {
 	}
 	return vsf
 }
-
-func anyAlien(vs []*Alien, f func(*Alien) bool) bool {
-	for _, v := range vs {
-		if f(v) {
-			return true
-		}
-	}
-	return false
-}
