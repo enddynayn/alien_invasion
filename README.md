@@ -1,21 +1,31 @@
 ## Alien invasion
 
 ## Run
+
 ```
-go  run $(ls -1 *.go | grep -v _test.go) -aliens 5
+go  run main.go -aliens 5
+```
+
+## Test
+
+```
+go test ./...
 ```
 
 ## Description
+
 Mad​ ​aliens​ ​are​ ​about​ ​to​ ​invade​ ​the​ ​earth​ ​and​ ​you​ ​are​ ​tasked​ ​with​ ​simulating​ ​the invasion.
 
 You​ ​are​ ​given​ ​a​ ​map​ ​containing​ ​the​ ​names​ ​of​ ​cities​ ​in​ ​the​ ​non-existent​ ​world​ ​of X.​ ​The​ ​map​ ​is​ ​in​ ​a​ ​file,​ ​with​ ​one​ ​city​ ​per​ ​line.​ ​The​ ​city​ ​name​ ​is​ ​first,
 followed​ ​by​ ​1-4​ ​directions​ ​(north,​ ​south,​ ​east,​ ​or​ ​west).​ ​Each​ ​one​ ​represents​ ​a road​ ​to​ ​another​ ​city​ ​that​ ​lies​ ​in​ ​that​ ​direction.
 
 For​ ​example:
+
 ```
 Foo​ ​north=Bar​ ​west=Baz​ ​south=Qu-ux
 Bar​ ​south=Foo​ ​west=Bee
 ```
+
 The​ ​city​ ​and​ ​each​ ​of​ ​the​ ​pairs​ ​are​ ​separated​ ​by​ ​a​ ​single​ ​space,​ ​and​ ​the
 directions​ ​are​ ​separated​ ​from​ ​their​ ​respective​ ​cities​ ​with​ ​an​ ​equals​ ​(=)​ ​sign.
 
@@ -28,16 +38,28 @@ north​ ​to​ ​Bar,​ ​west​ ​to​ ​Baz,​ ​or​ ​south​
 When​ ​two​ ​aliens​ ​end​ ​up​ ​in​ ​the​ ​same​ ​place,​ ​they​ ​fight,​ ​and​ ​in​ ​the​ ​process​ ​kill each​ ​other​ ​and​ ​destroy​ ​the​ ​city.​ ​When​ ​a​ ​city​ ​is​ ​destroyed,​ ​it​ ​is​ ​removed​ ​from the​ ​map,​ ​and​ ​so​ ​are​ ​any​ ​roads​ ​that​ ​lead​ ​into​ ​or​ ​out​ ​of​ ​it.
 
 In​ ​our​ ​example​ ​above,​ ​if​ ​Bar​ ​were​ ​destroyed​ ​the​ ​map​ ​would​ ​now​ ​be​ ​something like:
+
 ```
 Foo​ ​west=Baz​ ​south=Qu-ux
 ```
+
 Once​ ​a​ ​city​ ​is​ ​destroyed,​ ​aliens​ ​can​ ​no​ ​longer​ ​travel​ ​to​ ​or​ ​through​ ​it.​ ​This
 may​ ​lead​ ​to​ ​aliens​ ​getting​ ​"trapped".
 
 You​ ​should​ ​create​ ​a​ ​program​ ​that​ ​reads​ ​in​ ​the​ ​world​ ​map,​ ​creates​ ​N​ ​aliens,​ ​and unleashes​ ​them.​ ​The​ ​program​ ​should​ ​run​ ​until​ ​all​ ​the​ ​aliens​ ​have​ ​been destroyed,​ ​or​ ​each​ ​alien​ ​has​ ​moved​ ​at​ ​least​ ​10,000​ ​times.​ ​When​ ​two​ ​aliens fight,​ ​print​ ​out​ ​a​ ​message​ ​like:
+
 ```
 Bar​ ​has​ ​been​ ​destroyed​ ​by​ ​alien​ ​10​ ​and​ ​alien​ ​34!
 ```
+
 (If​ ​you​ ​want​ ​to​ ​give​ ​them​ ​names,​ ​you​ ​may,​ ​but​ ​it​ ​is​ ​not​ ​required.)​ ​Once​ ​the program​ ​has​ ​finished,​ ​it​ ​should​ ​print​ ​out​ ​whatever​ ​is​ ​left​ ​of​ ​the​ ​world​ ​in​ ​the same​ ​format​ ​as​ ​the​ ​input​ ​file.
 
 Feel​ ​free​ ​to​ ​make​ ​assumptions​ ​(for​ ​example,​ ​that​ ​the​ ​city​ ​names​ ​will​ ​never contain​ ​numeric​ ​characters),​ ​but​ ​please​ ​add​ ​comments​ ​or​ ​assertions​ ​describing the​ ​assumptions​ ​you​ ​are​ ​making.
+
+## Assumptions
+
+- At least 1 alien needed to run
+- Every city will have a direction
+- Game can be initialized with aliens same city
+- At least one city needs to be loaded
+- File to load cities i called cities.txt
