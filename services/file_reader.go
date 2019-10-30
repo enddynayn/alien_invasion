@@ -1,4 +1,4 @@
-package main
+package services
 
 import (
 	"bufio"
@@ -6,9 +6,9 @@ import (
 )
 
 func FileReader(file_path string) []string {
-	file, error := os.Open(file_path)
-	if error != nil {
-		panic(error)
+	file, err := os.Open(file_path)
+	if err != nil {
+		panic(err)
 	}
 
 	defer file.Close()
