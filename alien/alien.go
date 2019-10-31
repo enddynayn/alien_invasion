@@ -42,3 +42,49 @@ func (a *Alien) IsActive() bool {
 func (a *Alien) IsTrapped() bool {
 	return len(a.City.Paths) == 0
 }
+
+func AllAliensInactive(aliens []*Alien) bool {
+	return allAliens(aliens, func(a *Alien) bool {
+		return !a.IsActive()
+	})
+}
+
+func AllAliensReachMaxMoves(aliens []*Alien) bool {
+	aliens = filterAliens(aliens, func(a *Alien) bool {
+		return a.IsActive() && !a.IsTrapped()
+	})
+
+	return allAliens(aliens, func(a *Alien) bool {
+		return a.MoveCount >= 10000
+	})
+
+}
+
+func AllAliensTrapped(aliens []*Alien) bool {
+	aliens = filterAliens(aliens, func(a *Alien) bool {
+		return a.IsActive()
+	})
+
+	return allAliens(aliens, func(a *Alien) bool {
+		return a.IsTrapped()
+	})
+}
+
+func allAliens(vs []*Alien, f func(*Alien) bool) bool {
+	for _, v := range vs {
+		if !f(v) {
+			return false
+		}
+	}
+	return true
+}
+
+func filterAliens(vs []*Alien, f func(*Alien) bool) []*Alien {
+	vsf := make([]*Alien, 0)
+	for _, v := range vs {
+		if f(v) {
+			vsf = append(vsf, v)
+		}
+	}
+	return vsf
+}
