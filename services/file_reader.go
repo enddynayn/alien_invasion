@@ -5,6 +5,8 @@ import (
 	"os"
 )
 
+// FileReader reads lines from a file.
+// It returns a splice of lines.
 func FileReader(file_path string) []string {
 	file, err := os.Open(file_path)
 	if err != nil {
