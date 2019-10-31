@@ -9,6 +9,10 @@ import (
 	worldmap "github.com/enddynayn/alien_invasion/world_map"
 )
 
+// LogFight logs the fight between aliens.
+// It outputs the city it destroy with the names
+// of aliens that destroy it. For example,
+// Foo has been destroyed by alien 0 and alien 1!
 func LogFight(cityName string, alienNames []int) {
 	format := make([]string, 0)
 
@@ -27,6 +31,9 @@ func LogFight(cityName string, alienNames []int) {
 	fmt.Println(output)
 }
 
+// LogRemainingCities it logs the remaining cities
+// after after a simulation has ended. For example,
+// Bar west=Bee
 func LogRemainingCities(worldMap *worldmap.WorldMap) {
 	for name, city := range worldMap.Cities {
 		_, ok := citydata.CacheCityNamesFromInput[name]

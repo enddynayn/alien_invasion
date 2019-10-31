@@ -5,18 +5,25 @@ import (
 	"strings"
 )
 
+// CacheCityNamesFromInput caches all the all the cities from the input file.
+// This is used to log the results in the same format as the input once the simulation
+// is complete.
 var CacheCityNamesFromInput = make(map[string]bool)
 
+// CityData stores the name of the city and list of connections other cities.
 type CityData struct {
 	Name        string
 	Connections []Connection
 }
 
+// Connection stores the cardinal direction and city destination.
 type Connection struct {
 	CardinalDirection   string
 	CityDestinationName string
 }
 
+// NewCityData takes in a line from the city data and returns a city
+// CityData struct.
 func NewCityData(line string) CityData {
 	lineParts := strings.Fields(line)
 	cityConnections := lineParts[1:]
@@ -37,6 +44,9 @@ func NewCityData(line string) CityData {
 	return cityData
 }
 
+// parse splits the a connection and return an splice with
+// the first element being the cardinal direction and the second
+// element being the destination.
 func parse(connection string) ([]string, error) {
 	directionAndDestination := strings.Split(connection, "=")
 	if len(directionAndDestination) != 2 {
